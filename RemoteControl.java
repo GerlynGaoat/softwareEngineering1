@@ -1,18 +1,18 @@
 package softEng;
 
 import java.util.ArrayList;
-import java.util.list;
+import java.util.List;
 
 public class RemoteControl {
     
-    private List<Command> commands = new ArrayList<>();
+    private List<Command> commandQueue = new ArrayList<>();
 
     public void addCommand(Command command) {
-        commands.add(command);
+        commandQueue.add(command);
     }
 
-    public void clickButton(int ind) {
-        commands.get(ind).execute();
-        commands.clear();
+    public void deviceControl(int button) {
+        commandQueue.get(button).execute();
+        commandQueue.clear();
     }
 }

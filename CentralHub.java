@@ -3,167 +3,186 @@ package softEng;
 import java.util.Scanner;
 
 public class CentralHub {
-    public static void main (String args[]){
-        Scanner input = new Scanner(System.in);
-        while(true){
-            System.out.println("Smart Home Automation");
+    public static void main(String args[]) {
+        // Initialize a scanner for user input
+        Scanner sc = new Scanner(System.in);
+
+        // Create a continuous loop for device selection and control
+        while (true) {
+            System.out.println("Smart Home Automation Devices");
             System.out.println("1. Lights");
             System.out.println("2. Thermostat");
             System.out.println("3. Music Player");
             System.out.println("4. Exit");
             System.out.println("Which device would you like to control?");
-            int userChoice = input.nextInt();
-            if(userChoice==4){
+            int userChoice = sc.nextInt();
+
+            // Exit the program if the user chooses option 4
+            if (userChoice == 4) {
                 System.out.println("Goodbye!");
                 break;
             }
-            switch(userChoice){
-                case 1:
-                    while(true){
-                        System.out.println("Lights' Command List: ");
-                        System.out.println("1. Turn the lights on.");
-                        System.out.println("2. Turn the lights off");
-                        System.out.println("3. Increase the lights' brightness");
-                        System.out.println("4. Decrease the lights' brightness");
-                        System.out.println("0. Exit Command Option");
-                        System.out.println("Enter command: ");
-                        int devCommand = input.nextInt();
-                        if(devCommand==0) {
-                            System.out.println("Exiting command option...\n Please pick new device");
+
+            switch (userChoice) {
+                case 1: 
+                    while(true) {
+                        int choice;
+                        System.out.println("1. Turn on Lights");
+                        System.out.println("2. Turn off Lights");
+                        System.out.println("3. Increase Brightness");
+                        System.out.println("4. Decrease Brightness");
+                        System.out.println("0. Exit");
+                        System.out.println("What would you like to do?");
+                        choice = sc.nextInt();
+                        if(choice == 0) {
+                            System.out.println("Exiting");
                             break;
-                        }
+                            }
                         else {
-                            handleDeviceCommand(devCommand,userChoice);
+                            deviceControl(choice, userChoice);
                         }
                         System.out.println();
-                    }break;
-                case 2:
-                    while(true){
-                        System.out.println("Music Player's Command List: ");
-                        System.out.println("1. Turn the music on!");
-                        System.out.println("2. Turn the music off! ");
-                        System.out.println("3. Increase music volume");
-                        System.out.println("4. Decrease music volume");
-                        System.out.println("0. Exit Command Option");
-                        System.out.println("Enter command: ");
-                        int devCommand = input.nextInt();
-                        if(devCommand==0){
-                            System.out.println("Exiting command option...\n Please pick new device");
+                    }
+                    break;
+                case 2: 
+                    while(true) {
+                        int choice;
+                        System.out.println("1. Turn on Thermostat");
+                        System.out.println("2. Turn off Thermostat");
+                        System.out.println("3. Increase Temperature");
+                        System.out.println("4. Decrease Temperature");
+                        System.out.println("0. Exit");
+                        System.out.println("What would you like to do?");
+                        choice = sc.nextInt();
+                        if(choice == 0) {
+                            System.out.println("Exiting");
                             break;
-                        }else{
-                            handleDeviceCommand(devCommand,userChoice);
+                            }
+                        else {
+                            deviceControl(choice, userChoice);
                         }
                         System.out.println();
-                    }break;
-                case 3:
-                    while(true){
-                        System.out.println("Smart Fan's Command List: ");
-                        System.out.println("1. Turn the fan on!");
-                        System.out.println("2. Turn the fan off! ");
-                        System.out.println("3. Increase fan speed!");
-                        System.out.println("4. Decrease fan speed!");
-                        System.out.println("0. Exit Command Option");
-                        System.out.println("Enter command: ");
-                        int devCommand = input.nextInt();
-                        if(devCommand==0){
-                            System.out.println("Exiting command option...\n Please pick new device.");
+                    }
+                    break;
+                case 3: 
+                    while(true) {
+                        int choice;
+                        System.out.println("1. Turn on Music Player");
+                        System.out.println("2. Turn off Music Player");
+                        System.out.println("3. Increase Volume");
+                        System.out.println("4. Decrease Volume");
+                        System.out.println("0. Exit");
+                        System.out.println("What would you like to do?");
+                        choice = sc.nextInt();
+                        if(choice == 0) {
+                            System.out.println("Exiting");
                             break;
-                        }else{
-                            handleDeviceCommand(devCommand,userChoice);
+                            }
+                        else {
+                            deviceControl(choice, userChoice);
                         }
                         System.out.println();
-                    }break;
+                    }
+                    break;
                 default:
-                    System.out.println("Invalid Choice. Please enter [0-4]");
+                    System.out.println("Please choose 0-4 only!");
             }
         }
     }
-    private static void handleDeviceCommand(int devCommand,int userChoice){
 
-        switch(userChoice){
-            case 1: //lights
+    // Method to handle device-specific commands
+    private static void deviceControl(int choice, int userChoice) {
+        switch (userChoice) {
+            case 1: 
+            
                 Light light = new Light();
-                RemoteControl lightRemote = new RemoteControl();
-                Command lightPowerOn = new LightSwitchOn(light);
-                Command lightPowerOff = new LightSwitchOff(light);
-                Command lightBrightnessIncrease = new LightBrightnessInrease(light);
-                Command lightBrightnessDecrease = new LightBrightnessDecrease(light);
-                lightRemote.addCommand(lightPowerOn);
-                lightRemote.addCommand(lightPowerOff);
-                lightRemote.addCommand(lightBrightnessIncrease);
-                lightRemote.addCommand(lightBrightnessDecrease);
-                switch (devCommand){
+                RemoteControl remoteControlLight = new RemoteControl();
+                Command lightOn = new LightOn(light);
+                Command lightOff = new LightOff(light);
+                Command brightnessIncrease = new LightIncrease(light);
+                Command brightnessDecrease = new LightDecrease(light);
+                remoteControlLight.addCommand(lightOn);
+                remoteControlLight.addCommand(lightOff);
+                remoteControlLight.addCommand(brightnessIncrease);
+                remoteControlLight.addCommand(brightnessDecrease);
+                switch (choice){
                     case 1:
-                        lightRemote.clickButton(0);
+                        remoteControlLight.deviceControl(0);
                         break;
                     case 2:
-                        lightRemote.clickButton(1);
+                        remoteControlLight.deviceControl(1);
                         break;
                     case 3:
-                        lightRemote.clickButton(2);
+                        remoteControlLight.deviceControl(2);
                         break;
                     case 4:
-                        lightRemote.clickButton(3);
+                        remoteControlLight.deviceControl(3);
                         break;
                     default:
                         System.out.println("Invalid Choice!");
                         break;
-                }break;
-            case 2: // Music Player
-                MusicPlayer mp =new MusicPlayer();
-                RemoteControl musicRemote = new RemoteControl();
-                Command musicOn = new MusicPlayerPowerOn(mp);
-                Command musicOff = new MusicPlayerPowerOff(mp);
-                Command musicVolumeInc= new MusicPlayerIncreaseVolume(mp);
-                Command musicVolumeDec = new MusicPlayerDecreaseVolume(mp);
-                musicRemote.addCommand(musicOn);
-                musicRemote.addCommand(musicOff);
-                musicRemote.addCommand(musicVolumeInc);
-                musicRemote.addCommand(musicVolumeDec);
-                switch(devCommand){
+            }
+                break;
+            case 2: 
+            
+                Thermostat thermostat = new Thermostat();
+                RemoteControl remoteControlThermostat = new RemoteControl();
+                Command thermostatOn = new ThermostatOn(thermostat);
+                Command thermostatOff = new ThermostatOff(thermostat);
+                Command temperatureIncrease = new ThermostatIncrease(thermostat);
+                Command temperatureDecrease = new ThermostatDecrease(thermostat);
+                remoteControlThermostat.addCommand(thermostatOn);
+                remoteControlThermostat.addCommand(thermostatOff);
+                remoteControlThermostat.addCommand(temperatureIncrease);
+                remoteControlThermostat.addCommand(temperatureDecrease);
+                switch (choice){
                     case 1:
-                        musicRemote.clickButton(0);
+                        remoteControlThermostat.deviceControl(0);
                         break;
                     case 2:
-                        musicRemote.clickButton(1);
+                        remoteControlThermostat.deviceControl(1);
                         break;
                     case 3:
-                        musicRemote.clickButton(2);
+                        remoteControlThermostat.deviceControl(2);
                         break;
                     case 4:
-                        musicRemote.clickButton(3);
+                        remoteControlThermostat.deviceControl(3);
                         break;
                     default:
                         System.out.println("Invalid Choice!");
-                }break;
-            case 3:
-                SmartFan sf = new SmartFan();
-                RemoteControl smartFanControl = new RemoteControl();
-                Command smartFanOn = new SmartFanOn(sf);
-                Command smartFanOff = new SmartFanOff(sf);
-                Command smartFanInc = new SmartFanSpeedIncrease(sf);
-                Command smartFanDec = new SmartFanSpeedDecrease(sf);
-                smartFanControl.addCommand(smartFanOn);
-                smartFanControl.addCommand(smartFanOff);
-                smartFanControl.addCommand(smartFanInc);
-                smartFanControl.addCommand(smartFanDec);
-
-                switch (devCommand){
+                        break;
+                }
+                break;
+            case 3: 
+            
+                MusicPlayer musicPlayer = new MusicPlayer();
+                RemoteControl remoteControlMusicPlayer = new RemoteControl();
+                Command musicPlayerOn = new MusicPlayerOn(musicPlayer);
+                Command musicPlayerOff = new MusicPlayerOff(musicPlayer);
+                Command volumeIncrease = new MusicPlayerIncrease(musicPlayer);
+                Command volumeDecrease = new MusicPlayerDecrease(musicPlayer);
+                remoteControlMusicPlayer.addCommand(musicPlayerOn);
+                remoteControlMusicPlayer.addCommand(musicPlayerOff);
+                remoteControlMusicPlayer.addCommand(volumeIncrease);
+                remoteControlMusicPlayer.addCommand(volumeDecrease);
+                switch (choice){
                     case 1:
-                        smartFanControl.clickButton(0);
+                        remoteControlMusicPlayer.deviceControl(0);
                         break;
                     case 2:
-                        smartFanControl.clickButton(1);
+                        remoteControlMusicPlayer.deviceControl(1);
                         break;
                     case 3:
-                        smartFanControl.clickButton(2);
+                        remoteControlMusicPlayer.deviceControl(2);
                         break;
                     case 4:
-                        smartFanControl.clickButton(3);
+                        remoteControlMusicPlayer.deviceControl(3);
                         break;
                     default:
                         System.out.println("Invalid Choice!");
-                }break;
+                        break;
+            }
+                break;
         }
     }
 }
